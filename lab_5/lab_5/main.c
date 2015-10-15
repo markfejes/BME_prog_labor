@@ -2,34 +2,40 @@
 #include <stdio.h>
 #include <math.h>
 
-typedef struct Pont
+typedef struct point
 	{
 		double x;
 		double y;
-	}Pont;
+	}point;
 
-double distanceOf(Pont a, Pont b);
-Pont getPoint(void);
+double distanceOf(point a, point b);
+point getPoint(void);
 
 int main(void) {
-	Pont start,p2;
+	point start, last,current;
+	double fullDistance = 0.0;
 
 	printf("Please enter the first point in this format: \'x,y\':\n");
 
 	start = getPoint();
-	p2    = getPoint();
-	/*Pont last = {0,0};
-	Pont current = {0,0};s
-	double fullDistance = 0.0;*/
+	last = start;
+	current = start;
+	printf("Please enter the second point:\n");
 
-	printf("%g,%g\n", start.x, start.y);
-	printf("%g\n", distanceOf(start,p2));
-//	fullDistance += distanceOf();
+	do
+	{
+		current = getPoint();
+		fullDistance += distanceOf(last, current);
+		last = current;
+
+	} while (distanceOf(start,current) != 0);
+
+	printf("\n\nThe full distance is: %g\n", fullDistance);
 
 	return 0;
 }
 
-double distanceOf(Pont a, Pont b){
+double distanceOf(point a, point b){
 	
 	double distanceOnX = fabs(a.x - b.x);
 	double distanceOnY = fabs(a.y - b.y);
@@ -37,9 +43,9 @@ double distanceOf(Pont a, Pont b){
 	return sqrt(pow(distanceOnX,2) + pow(distanceOnY,2));
 }
 
-Pont getPoint(void){
+point getPoint(void){
 
-	Pont entered = {0.0,0.0};
+	point entered = {0.0,0.0};
 
 	printf("Please enter the coordinates of the point: ");
 	scanf ("%lf,%lf", &entered.x, &entered.y);
